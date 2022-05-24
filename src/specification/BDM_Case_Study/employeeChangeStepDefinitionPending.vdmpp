@@ -1,0 +1,36 @@
+/* --@StepDefinition("employee")
+class EmployeeChangeStepDefinitionsPending
+types
+operations
+-- @Given("employee","An employee with a unique id {int} and {int} available time units exist.")
+public Given_an_employee_exists: nat * nat ==> ()
+Given_an_employee_exists(id,timeUnit) ==
+(
+  skip;
+);
+
+-- @When("employee","The employee has been scheduled for a job and the employee's time units are {int}.")
+public When_Employee_scheduled_have_remaining_time_units: nat ==> ()
+When_Employee_scheduled_have_remaining_time_units(remainingtimeUnit) ==
+(
+  skip;
+);
+
+-- @When("employee","The system starts a new day.")
+public When_The_system_starts_new_day: () ==> ()
+When_The_system_starts_new_day() ==
+(
+    skip;
+);
+
+-- @Then("employee","The employee has refreshed his {int} time units.")
+public Then_the_employee_has_remaining_time_units: nat ==> ()
+Then_the_employee_has_remaining_time_units(remainingtimeUnit) == 
+(
+  skip;
+);
+
+
+
+  
+end EmployeeChangeStepDefinitionsPending */

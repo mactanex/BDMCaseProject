@@ -4,30 +4,30 @@ types
 
 
 instance variables
-    jobCatalogue: set of Job := {};
-    employeeCatalogue: set of Employee := {}
+    jobCatalogue: set of JobChange := {};
+    employeeCatalogue: set of EmployeeChange := {}
 
 operations
 
-public AddJob: Job ==> ()
+public AddJob: JobChange ==> ()
 AddJob(pJob) ==
 (
     jobCatalogue := jobCatalogue union {pJob};
 )
 pre pJob.GetId() not in set {job.GetId() | job in set jobCatalogue};
 
-public AddEmployee: Employee ==> ()
+public AddEmployee: EmployeeChange ==> ()
 AddEmployee(pEmployeee) ==
 (
     employeeCatalogue := employeeCatalogue union {pEmployeee};
 )
 pre pEmployeee.GetId() not in set {employee.GetId() | employee in set employeeCatalogue};
 
-public GetJobCatalogue: () ==> set of Job
+public GetJobCatalogue: () ==> set of JobChange
 GetJobCatalogue() ==
 return jobCatalogue;    
 
-public GetEmployeeCatalogue: () ==> set of Employee
+public GetEmployeeCatalogue: () ==> set of EmployeeChange
 GetEmployeeCatalogue() ==
 return employeeCatalogue;    
 
@@ -35,11 +35,11 @@ return employeeCatalogue;
 
 
 functions
-JobExists: nat * set of Job -> bool
+JobExists: nat * set of JobChange -> bool
 JobExists(id,jobCatalogue) ==
 exists j in set jobCatalogue & j.GetId() = id;
 
-EmployeeExists: nat * set of Employee -> bool
+EmployeeExists: nat * set of EmployeeChange -> bool
 EmployeeExists(id,employeeCatalogue) ==
 exists e in set employeeCatalogue & e.GetId() = id;
 

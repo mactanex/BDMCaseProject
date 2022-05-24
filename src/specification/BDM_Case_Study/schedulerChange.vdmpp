@@ -1,0 +1,179 @@
+class SchedulerChange
+
+types
+
+
+instance variables
+    day: nat := 0;
+    jobCatalogue: set of JobChange := {};
+    originalEmployeeCatalogue: set of EmployeeChange := {};
+    employeeCatalogue: set of EmployeeChange := {};
+    scheduleGLobal: map nat to (map EmployeeChange to JobChange) := {|->};
+
+
+
+operations
+
+public CreateSchedule: () ==> ()
+CreateSchedule() ==
+(
+    dcl step: nat := 1;
+    while EmployeeAndJobExists(employeeCatalogue,jobCatalogue) 
+    do 
+    (   
+        dcl employee: EmployeeChange := FindNextEmployee();
+        dcl job : JobChange := FindMatchingJob(employee,jobCatalogue);
+        dcl jobTimeUnits: nat := job.GetTimeUnit();
+        job.step(employee.GetTimeUnitsAvailable());
+        jobCatalogue := {sjob | sjob in set jobCatalogue & sjob.GetTimeUnit() > 0};
+        employee.step(jobTimeUnits);
+        employeeCatalogue := {semployee | semployee in set employeeCatalogue & semployee.GetTimeUnitsAvailable() > 0};
+        scheduleGLobal := scheduleGLobal ++ {step |-> {employee |-> job}};
+        step := step + 1;
+    );
+    
+);
+
+/* public CreateSchedule2: nat ==> ()
+CreateSchedule2(pstep) ==
+(
+    
+    
+    while EmployeeAndJobExists(employeeCatalogue,jobCatalogue) 
+    do 
+    (   
+        dcl employee: EmployeeChange := FindNextEmployee();
+        dcl job : JobChange := FindMatchingJob(employee,jobCatalogue);
+        updateSchedule(job,employee);
+        scheduleGLobal := scheduleGLobal ++ {pstep |-> {employee |-> job}};
+        CreateSchedule2( pstep + 1);
+    );
+    
+); */
+
+public step: () ==> ()
+step() == (
+    while checkJobCatalogueDeadline()
+    do 
+    (
+        day := day + 1;
+        originalEmployeeCatalogue := employeeCatalogue;
+        CreateSchedule();
+        employeeCatalogue := originalEmployeeCatalogue;
+        refreshEmployees();
+    );
+);
+
+public refreshEmployees: () ==> ()
+refreshEmployees() == 
+(
+    for all e in set employeeCatalogue do e.refresh();
+);
+
+public ScheduleSatisfied: () ==> seq of char
+ScheduleSatisfied() ==
+(
+    /* dcl temp : nat := 0;
+    for all job in set jobCatalogue
+    do 
+    (
+        temp := temp + job.GetTimeUnit() ;
+    );
+    if temp > 0 then return "Not satisfied" else return "Satisfied"; */
+    if exists job in set jobCatalogue & job.GetTimeUnit() > 0 then return "Not satisfied" else return "Satisfied";
+);
+
+public checkJobCatalogueDeadline : () ==> bool 
+checkJobCatalogueDeadline() ==
+(
+    if card {j | j in set jobCatalogue & j.deadlineReached(day)} < 1 and card jobCatalogue > 0 then return true else return false;
+);
+
+public FindMatchingJob: EmployeeChange * set of JobChange ==> JobChange
+FindMatchingJob(employee,jobs) ==
+(
+    dcl employeeSkills: map seq of char to nat := employee.GetSkills();
+    let j in set jobs be st (j.GetSkill() in set dom employeeSkills) and (MatchingSkillLevelExists(employeeSkills,j))
+    in
+    return j
+    -- 
+);
+
+public FindNextEmployee: () ==> EmployeeChange
+FindNextEmployee() ==
+(
+
+    let employee in set employeeCatalogue be st EmployeeAndJobExists(employeeCatalogue,jobCatalogue) in return employee;
+);
+
+
+
+
+
+public AddJob: JobChange ==> ()
+AddJob(pJob) ==
+(
+    jobCatalogue := jobCatalogue union {pJob};
+)
+pre pJob.GetId() not in set {job.GetId() | job in set jobCatalogue};
+
+public AddEmployee: EmployeeChange ==> ()
+AddEmployee(pEmployeee) ==
+(
+    employeeCatalogue := employeeCatalogue union {pEmployeee};
+)
+pre pEmployeee.GetId() not in set {employee.GetId() | employee in set employeeCatalogue};
+
+public RemoveEmployee: EmployeeChange ==> ()
+RemoveEmployee(pEmployeee) ==
+(
+    employeeCatalogue := employeeCatalogue \ {pEmployeee};
+)
+pre pEmployeee.GetId() in set {employee.GetId() | employee in set employeeCatalogue};
+
+pure public GetJobCatalogue: () ==> set of JobChange
+GetJobCatalogue() ==
+return jobCatalogue;    
+
+pure public GetEmployeeCatalogue: () ==> set of EmployeeChange
+GetEmployeeCatalogue() ==
+return employeeCatalogue;    
+
+pure public GetSchedule:() ==> map nat to (map EmployeeChange to JobChange)
+GetSchedule() ==
+return scheduleGLobal;
+ 
+
+
+
+functions
+public JobExists: nat * set of JobChange -> bool
+JobExists(id,jobCatalogue) ==
+exists j in set jobCatalogue & j.GetId() = id;
+
+public EmployeeAndJobExists: set of EmployeeChange * set of JobChange-> bool
+EmployeeAndJobExists(employeeCatalogue, jobCatalogue) ==(  
+     (exists j in set jobCatalogue & exists e in set employeeCatalogue &
+        MatchingSkillLevelExists(e.GetSkills(),j)) 
+        and (exists e in set employeeCatalogue & MatchingJobExists(e,jobCatalogue) )
+    
+);
+
+public removeJobfromJobCatalog (j:JobChange, jc:set of JobChange) r : set of JobChange
+pre exists job in set jc & job.GetId() = j.GetId()
+post r = jc \ {j};
+
+public removeEmployeefromEmployeeCatalog (e: EmployeeChange, ec: set of EmployeeChange) r : set of EmployeeChange
+pre exists employee in set ec & employee.GetId() = e.GetId()
+post r = ec \ {e};
+
+
+public MatchingJobExists: EmployeeChange * set of JobChange -> bool
+MatchingJobExists(employee, jobs) ==
+    (exists job in set jobs & job.GetSkill() in set dom employee.GetSkills());
+    
+public MatchingSkillLevelExists: map seq of char to nat * JobChange -> bool
+MatchingSkillLevelExists(employeeSkills,job) ==
+    (exists skill in set dom employeeSkills & employeeSkills(skill) >= job.GetSkillLevel());
+
+end SchedulerChange

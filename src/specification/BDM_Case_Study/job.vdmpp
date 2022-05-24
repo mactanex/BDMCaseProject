@@ -1,4 +1,4 @@
-class Job
+/* class Job
 
 types
 
@@ -21,13 +21,8 @@ Job(pId,pSkill,pLevel,pTimeUnits) ==
 );
 
 public SetTimeUnits: nat ==> ()
-SetTimeUnits(newTime) == (
-    if newTime > timeUnits 
-    then 
-        timeUnits := 0 
-    else
-        timeUnits := timeUnits - newTime;
-);
+SetTimeUnits(newTime) == 
+timeUnits := newTime;
 
 pure public GetTimeUnit: () ==> nat
 GetTimeUnit() ==
@@ -49,4 +44,4 @@ functions
     
 
 
-end Job
+end Job */

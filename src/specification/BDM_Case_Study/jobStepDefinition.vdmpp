@@ -1,4 +1,4 @@
---@StepDefinition("job1")
+/* --@StepDefinition("job1")
 class JobStepDefinitions
 types
 instance variables
@@ -31,4 +31,4 @@ Then_the_job_exists_in_the_system() ==
   else return false;
 ) post RESULT = true;
   
-end JobStepDefinitions
+end JobStepDefinitions */

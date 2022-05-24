@@ -4,7 +4,7 @@ types
 
 
 instance variables
-    scheduler: Scheduler := new Scheduler();
+    scheduler: SchedulerChange := new SchedulerChange();
 
 operations
 

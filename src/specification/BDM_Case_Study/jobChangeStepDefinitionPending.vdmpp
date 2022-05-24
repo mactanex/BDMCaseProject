@@ -1,0 +1,26 @@
+/* --@StepDefinition("job")
+class JobChangeStepDefinitionsPending
+types
+operations
+-- @Given("job","A job with a unique {int} and a required {string}, {int}, {int},  and a {int} exist.")
+public Given_a_job_exists: nat * seq of char * nat * nat * nat ==> ()
+Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
+(
+  skip;
+);
+
+-- @When("job","I add the job in the system.")
+public When_I_add_the_job_in_the_system: () ==> ()
+When_I_add_the_job_in_the_system() ==
+(
+    skip;
+);
+
+-- @Then("job","The job exists in the system.")
+public Then_the_job_exists_in_the_system: () ==> ()
+Then_the_job_exists_in_the_system() == 
+(
+  skip;
+);
+  
+end JobChangeStepDefinitionsPending */

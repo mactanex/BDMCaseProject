@@ -1,4 +1,4 @@
-class Scheduler
+/* class Scheduler
 
 types
 
@@ -6,42 +6,35 @@ types
 instance variables
     jobCatalogue: set of Job := {};
     employeeCatalogue: set of Employee := {};
-    scheduleGLobal: map Employee to Job := {|->};
+    scheduleGLobal: map nat to (map Employee to Job) := {|->};
 
 operations
 
 public CreateSchedule: () ==> ()
 CreateSchedule() ==
 (
-    let employee in set employeeCatalogue be st MatchingJobExists(employee,jobCatalogue) in 
+    dcl step: nat := 1;
+    while EmployeeAndJobExists(employeeCatalogue,jobCatalogue) 
+    do 
     (
-        dcl employeeSkills: map seq of char to nat := employee.GetSkills();
-        let job in set jobCatalogue be st (job.GetSkill() in set dom employeeSkills) and
-        (employee.GetTimeUnitsAvailable() >= job.GetTimeUnit()) and
-        (MatchingSkillLevelExists(employee.GetSkills(),job))
-        in 
-        (
-        job.SetTimeUnits(employee.GetTimeUnitsAvailable());
+        
+        dcl employee: Employee := FindNextEmployee();
+        dcl job : Job := FindMatchingJob(employee,jobCatalogue);
+        dcl jobTimeUnits: nat := job.GetTimeUnit();
+        job.SetTimeUnits(employee.GetTimeUnitsAvailable());        
         jobCatalogue := {sjob | sjob in set jobCatalogue & job.GetTimeUnit() > 0};
-        employee.SetTimeUnits(job.GetTimeUnit());
+        employee.SetTimeUnits(employee.GetTimeUnitsAvailable() - jobTimeUnits);
         employeeCatalogue := {semployee | semployee in set employeeCatalogue & employee.GetTimeUnitsAvailable() > 0};
-        scheduleGLobal := scheduleGLobal ++ {employee |-> job};
-        )
-            
+        scheduleGLobal := scheduleGLobal munion {step |-> {employee |-> job}};
+        step := step +1;
     );
 );
-
 
 public ScheduleSatisfied: () ==> seq of char
 ScheduleSatisfied() ==
 (
-    /* dcl temp : nat := 0;
-    for all job in set jobCatalogue
-    do 
-    (
-        temp := temp + job.GetTimeUnit() ;
-    );
-    if temp > 0 then return "Not satisfied" else return "Satisfied"; */
+    
+
     if exists job in set jobCatalogue & job.GetTimeUnit() > 0 then return "Not satisfied" else return "Satisfied";
 );
 
@@ -49,12 +42,18 @@ public FindMatchingJob: Employee * set of Job ==> Job
 FindMatchingJob(employee,jobs) ==
 (
     dcl employeeSkills: map seq of char to nat := employee.GetSkills();
-    let j in set jobs be st (j.GetSkill() in set dom employeeSkills)
+    let j in set jobs be st (j.GetSkill() in set dom employeeSkills) and (MatchingSkillLevelExists(employeeSkills,j))
     in
     return j
+    -- 
 );
 
+public FindNextEmployee: () ==> Employee
+FindNextEmployee() ==
+(
 
+    let employee in set employeeCatalogue be st EmployeeAndJobExists(employeeCatalogue,jobCatalogue) in return employee;
+);
 
 
 
@@ -72,6 +71,13 @@ AddEmployee(pEmployeee) ==
 )
 pre pEmployeee.GetId() not in set {employee.GetId() | employee in set employeeCatalogue};
 
+public RemoveEmployee: Employee ==> ()
+RemoveEmployee(pEmployeee) ==
+(
+    employeeCatalogue := employeeCatalogue \ {pEmployeee};
+)
+pre pEmployeee.GetId() in set {employee.GetId() | employee in set employeeCatalogue};
+
 pure public GetJobCatalogue: () ==> set of Job
 GetJobCatalogue() ==
 return jobCatalogue;    
@@ -80,7 +86,7 @@ pure public GetEmployeeCatalogue: () ==> set of Employee
 GetEmployeeCatalogue() ==
 return employeeCatalogue;    
 
-pure public GetSchedule:() ==>  map Employee to Job
+pure public GetSchedule:() ==> map nat to (map Employee to Job)
 GetSchedule() ==
 return scheduleGLobal;
  
@@ -92,9 +98,14 @@ public JobExists: nat * set of Job -> bool
 JobExists(id,jobCatalogue) ==
 exists j in set jobCatalogue & j.GetId() = id;
 
-public EmployeeExists: nat * set of Employee -> bool
-EmployeeExists(id,employeeCatalogue) ==
-exists e in set employeeCatalogue & e.GetId() = id;
+public EmployeeAndJobExists: set of Employee * set of Job-> bool
+EmployeeAndJobExists(employeeCatalogue, jobCatalogue) ==(  
+     (exists j in set jobCatalogue & exists e in set employeeCatalogue &
+        MatchingSkillLevelExists(e.GetSkills(),j)) 
+        and (exists e in set employeeCatalogue & MatchingJobExists(e,jobCatalogue) )
+    
+);
+
 
 public MatchingJobExists: Employee * set of Job -> bool
 MatchingJobExists(employee, jobs) ==
@@ -104,4 +115,4 @@ public MatchingSkillLevelExists: map seq of char to nat * Job -> bool
 MatchingSkillLevelExists(employeeSkills,job) ==
     (exists skill in set dom employeeSkills & employeeSkills(skill) >= job.GetSkillLevel());
 
-end Scheduler
+end Scheduler */
