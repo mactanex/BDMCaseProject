@@ -1,0 +1,155 @@
+--@StepDefinition("schedule")
+class ScheduleStepDefinitions
+instance variables
+    scheduler: Scheduler := new Scheduler();
+types
+operations
+-- @Given("schedule","A job with a unique {int} and a required {string}, {int} and {int} exists in the system.")
+public Given_a_job_exists: nat * seq of char * nat * nat ==> ()
+Given_a_job_exists(id,skill,skilLevel,timeUnit) ==
+(
+    dcl job: Job := new Job(id,skill,skilLevel,timeUnit);
+    scheduler.AddJob(job);
+);
+
+-- @Given("schedule","A employee is added to the system, with a unique {int} and a {string}, {int}, and {int} exists in the system.")
+public Given_an_employee_exists: nat * seq of char * nat * nat ==> ()
+Given_an_employee_exists(id,skill,skilLevel,timeUnit) ==
+(
+    dcl employee: Employee := new Employee(id, timeUnit);
+    employee.AddSkill(skill,skilLevel);
+    scheduler.AddEmployee(employee);
+);
+
+-- @When("schedule","The system creates a schedule.")
+public When_the_system_creates_a_schedule: () ==> ()
+When_the_system_creates_a_schedule() ==
+(
+    scheduler.CreateSchedule();
+    IO`println(scheduler.GetSchedule());
+    IO`println(scheduler.GetJobCatalogue());
+);
+
+-- @Then("schedule","The job is scheduled {string}.")
+public Then_the_job_is_scheduled: seq of char ==> bool
+Then_the_job_is_scheduled(result) == 
+(
+  return scheduler.ScheduleSatisfied() = result;
+) post RESULT = true;
+
+-- @Given("schedule","A set of {string}  exist in the system.")
+public Given_a_set_jobs_exists: seq of char ==> ()
+Given_a_set_jobs_exists(pJobs) ==
+(
+  AddJobs(pJobs);
+
+);
+
+-- @Given("schedule","A set of {string} exist in the system.")
+public Given_a_set_employees_exists: seq of char ==> ()
+Given_a_set_employees_exists(employees) ==
+(
+  AddEmployees(employees);
+);
+
+public AddJobs: seq of char ==> ()
+AddJobs(stringArgument) ==
+(
+  
+  dcl originalInput: seq of char := stringArgument;
+
+  dcl AmountOfJobs: nat := len [x | x in seq originalInput & x = '}'];
+
+  for i = 1 to AmountOfJobs do (
+    dcl temp: seq of seq of char := ["","","",""];
+    dcl ite: nat := 1;
+    
+    for j = 1 to convertToJobsHelper(originalInput, 1) do (
+      
+      if not(originalInput(j) = ',' or (originalInput(j) = '{') or (originalInput(j) = '}')) then (
+        temp(ite) := temp(ite) ^ [originalInput(j)];
+        );
+      if (originalInput(j) = ',') then ite := ite + 1;
+      
+    );
+
+    for k = 1 to convertToJobsHelper(originalInput, 2) do (
+
+      if (tl originalInput <> []) then originalInput := tl originalInput;
+    );
+    scheduler.AddJob(new Job(convert(temp(1)), temp(2), convert(temp(3)), convert(temp(4))));
+  )
+);
+
+public AddEmployees: seq of char ==> ()
+AddEmployees(stringArgument) ==
+(
+  dcl originalInput: seq of char := stringArgument;
+  dcl AmountOfEmployees: nat := len [x | x in seq originalInput & x = '}'];
+
+  for i = 1 to AmountOfEmployees do (
+    dcl temp: seq of seq of char := ["","","",""];
+    dcl ite: nat := 1;
+    
+    for j = 1 to convertToJobsHelper(originalInput, 1) do (
+      
+      if not(originalInput(j) = ',' or (originalInput(j) = '{') or (originalInput(j) = '}')) then (
+        temp(ite) := temp(ite) ^ [originalInput(j)];
+        );
+      if (originalInput(j) = ',') then ite := ite + 1;
+      
+    );
+
+    for k = 1 to convertToJobsHelper(originalInput, 2) do (
+
+      if (tl originalInput <> []) then originalInput := tl originalInput;
+    );
+    scheduler.AddEmployee(CreateEmployeeHelper(temp(1),temp(2),temp(3),temp(4)));
+  )
+);
+
+
+public CreateEmployeeHelper: seq of char * seq of char * seq of char * seq of char ==> Employee
+CreateEmployeeHelper(str1,str2,str3,str4) == 
+(
+  dcl employee: Employee := new Employee(convert(str1),convert(str4));
+  employee.AddSkill(str2,convert(str3));
+  return employee;
+);
+
+--{1,Mechanical,3,5}
+public convert: seq of char  ==> nat 
+convert(input) ==
+return convertStringToNumber2(input);
+
+functions
+convertStringToNumber2: seq of (char) -> nat
+convertStringToNumber2(input) ==
+(
+  let lastdigit:nat = cases input:
+                  "0" -> 0,
+                  "1" -> 1,
+                  "2" -> 2,
+                  "3" -> 3,
+                  "4" -> 4,
+                  "5" -> 5,
+                  "6" -> 6,
+                  "7" -> 7,
+                  "8" -> 8,
+                  "9" -> 9
+                  end
+  in 
+    lastdigit
+  
+);
+
+
+
+convertToJobsHelper: seq of char * nat -> nat
+convertToJobsHelper(stringArgument, iterator) ==
+(
+  if (hd stringArgument = '}' or len stringArgument < 1) then iterator 
+  else convertToJobsHelper(tl stringArgument,iterator+1)
+) measure len stringArgument;
+
+end ScheduleStepDefinitions

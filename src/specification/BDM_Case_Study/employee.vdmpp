@@ -1,0 +1,53 @@
+class Employee
+
+types
+
+
+instance variables
+    id: nat;
+    timeUnitsAvailable: nat;
+    skills: map seq of char to nat;
+
+
+    
+operations
+public Employee: nat *nat ==> Employee
+Employee(pId,pTimeUnits) ==
+(
+    id := pId;
+    timeUnitsAvailable:=pTimeUnits;
+    skills := {|->};
+);
+
+public AddSkill: seq of char * nat ==> ()
+AddSkill(pSkill,pLevel) ==
+skills:= skills ++ {pSkill |-> pLevel};
+
+public SetTimeUnits: nat ==> ()
+SetTimeUnits(newTime) == 
+(
+    if newTime > timeUnitsAvailable 
+    then 
+        timeUnitsAvailable := 0
+    else
+        timeUnitsAvailable := timeUnitsAvailable - newTime;
+);
+
+pure public GetTimeUnitsAvailable: () ==> nat
+GetTimeUnitsAvailable() ==
+return timeUnitsAvailable;    
+
+pure public GetSkills: () ==> map seq of char to nat
+GetSkills() ==
+return skills;    
+
+pure public GetId: () ==> nat
+GetId() ==
+return id;    
+
+
+functions
+    
+
+
+end Employee

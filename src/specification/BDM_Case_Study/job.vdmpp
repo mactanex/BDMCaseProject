@@ -1,0 +1,52 @@
+class Job
+
+types
+
+
+instance variables
+    id: nat;
+    timeUnits: nat;
+    skillLevel: nat;
+    skill: seq of char;
+
+
+operations
+public Job: nat * seq of char *nat*nat ==> Job
+Job(pId,pSkill,pLevel,pTimeUnits) ==
+(
+    id := pId;
+    skill:=pSkill;
+    skillLevel:=pLevel;
+    timeUnits:=pTimeUnits;
+);
+
+public SetTimeUnits: nat ==> ()
+SetTimeUnits(newTime) == (
+    if newTime > timeUnits 
+    then 
+        timeUnits := 0 
+    else
+        timeUnits := timeUnits - newTime;
+);
+
+pure public GetTimeUnit: () ==> nat
+GetTimeUnit() ==
+return timeUnits;    
+
+pure public GetSkillLevel: () ==> nat
+GetSkillLevel() ==
+return skillLevel;    
+
+pure public GetSkill: () ==> seq of char
+GetSkill() ==
+return skill;    
+pure public GetId: () ==> nat
+GetId() ==
+return id;    
+
+
+functions
+    
+
+
+end Job

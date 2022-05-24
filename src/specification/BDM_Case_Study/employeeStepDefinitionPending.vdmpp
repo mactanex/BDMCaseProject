@@ -1,0 +1,72 @@
+/* --@StepDefinition("employee")
+class EmployeeStepDefinitionsPending
+types
+operations
+-- @Given("employee","An employee with a unique {int} and available {int} exist.")
+public Given_an_employee_exists: nat * nat ==> ()
+Given_an_employee_exists(id,timeUnit) ==
+(
+  skip;
+);
+
+-- @When("employee","I add the employee in the system.")
+public When_I_add_the_employee_in_the_system: () ==> ()
+When_I_add_the_employee_in_the_system() ==
+(
+    skip;
+);
+
+-- @Then("employee","The employee exists in the system.")
+public Then_the_employee_exists_in_the_system: () ==> ()
+Then_the_employee_exists_in_the_system() == 
+(
+  skip;
+);
+  
+-- @Given("employee","An Employee with a unique {int} exists in the system.")
+public Given_an_employee_exists_in_system: nat ==> ()
+Given_an_employee_exists_in_system(id) ==
+(
+  skip;
+);
+
+-- @When("employee","I add a {string} with a {int} to the employee.")
+public When_I_add_a_skill_to_employee: seq of char * nat ==> ()
+When_I_add_a_skill_to_employee(skillName,skillLevel) ==
+(
+    skip;
+);
+
+-- @Then("employee","The employee has the {string} and {int} in their set of skills.")
+public Then_the_skill_is_added_to_the_employee: seq of char * nat ==> ()
+Then_the_skill_is_added_to_the_employee(skillName,skillLevel) == 
+(
+  skip;
+);
+
+-- @Given("employee","An Employee with a unique {int} and {string} with {int} exists in the system.")
+public Given_an_employee_exists_in_system_2: nat * seq of char * nat ==> ()
+Given_an_employee_exists_in_system_2(id,skill,skillLevel) ==
+(
+  skip;
+);
+
+
+
+-- @Then("employee",The employee has the {string} and {int} in their set of skills.")
+public Then_the_skill_is_added_to_the_employee_2: seq of char * nat ==> ()
+Then_the_skill_is_added_to_the_employee_2(skillName,skillLevel) == 
+(
+  skip;
+);
+
+-- @Then("employee","The employee has {int} number of skills in their set of skills.")
+public Then_the_amount_of_skills_is: nat ==> ()
+Then_the_amount_of_skills_is(amount) == 
+(
+  skip;
+);
+
+
+  
+end EmployeeStepDefinitionsPending */

@@ -1,0 +1,18 @@
+class System2
+
+types
+
+
+instance variables
+    scheduler: Scheduler := new Scheduler();
+
+operations
+
+
+
+
+functions
+
+
+
+end System2

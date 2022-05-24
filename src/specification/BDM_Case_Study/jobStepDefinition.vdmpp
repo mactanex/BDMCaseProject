@@ -1,0 +1,34 @@
+--@StepDefinition("job1")
+class JobStepDefinitions
+types
+instance variables
+    currentJob: Job;
+    system: System := new System();
+
+operations
+
+
+-- @Given("job1","A job with a unique {int} and a required {string}, {int}  and {int} exist.")
+public Given_a_job_exists: nat * seq of char * nat * nat ==> ()
+Given_a_job_exists(id,skill,skilLevel,timeUnit) ==
+(
+  currentJob:= new Job(id,skill,skilLevel,timeUnit);
+);
+
+-- @When("job1","I add the job in the system.")
+public When_I_add_the_job_in_the_system: () ==> ()
+When_I_add_the_job_in_the_system() ==
+(
+    system.AddJob(currentJob);
+
+);
+
+-- @Then("job1","The job exists in the system.")
+public Then_the_job_exists_in_the_system: () ==> bool
+Then_the_job_exists_in_the_system() == 
+(
+  if exists j in set system.GetJobCatalogue() & (j.GetId() = currentJob.GetId()) then return true
+  else return false;
+) post RESULT = true;
+  
+end JobStepDefinitions
