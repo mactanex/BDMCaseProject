@@ -5,7 +5,7 @@ instance variables
 types
 operations
 -- @Given("schedule","A job with a unique {int} and a required {string}, {int}, {int}, and {int} exists in the system.")
-public Given_a_job_exists: nat * seq of char * nat * nat * nat ==> ()
+public Given_a_job_exists: int * seq of char * int * int * int ==> ()
 Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
 (
     dcl job: JobChange := new JobChange(id,skill,skilLevel,timeUnit, deadline);
@@ -13,7 +13,7 @@ Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
 );
 
 -- @Given("schedule","A employee is added to the system, with a unique {int} and a {string}, {int}, and {int} exists in the system.")
-public Given_an_employee_exists: nat * seq of char * nat * nat ==> ()
+public Given_an_employee_exists: int * seq of char * int * int ==> ()
 Given_an_employee_exists(id,skill,skilLevel,timeUnit) ==
 (
     dcl employee: EmployeeChange := new EmployeeChange(id, timeUnit);
@@ -208,7 +208,7 @@ else
 
 
 
-convertToJobsHelper: seq of char * nat -> nat
+convertToJobsHelper: seq of char * int -> nat
 convertToJobsHelper(stringArgument, iterator) ==
 (
   if (hd stringArgument = '}' or len stringArgument < 1) then iterator 
