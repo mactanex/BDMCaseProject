@@ -22,5 +22,14 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
+    - name: Fetch Github Release Asset
+      uses: dsaltares/fetch-gh-release-asset@1.0.0
+      with:
+        repo: 'mactanex/BDMCore'
+        version: 'tags/1.1.0'
+        file: 'core-1.1.0-jar-with-dependencies-and-exclude-classes.jar'
+        target: 'lib/BDMCore.jar'
+    - name: install dep
+      run: mvn install:install-file -Dfile='lib/BDMCore.jar' -DgroupId='com.bdm' -DartifactId='core' -Dversion='1.1.0' -Dpackaging='jar'
     - name: Test with Maven
       run: mvn test
