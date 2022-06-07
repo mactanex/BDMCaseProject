@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/mactanex/BDMCaseProject/actions/workflows/maven.yml/badge.svg)](https://github.com/mactanex/BDMCaseProject/actions/workflows/maven.yml)
+
 # BDMCaseProject
 The Case Project used to validate the BDM Tool
 
