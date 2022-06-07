@@ -44,5 +44,9 @@ jobs:
       run: java -cp "vdmj-4.4.4.jar:lib/*" com.fujitsu.vdmj.VDMJ -vdmpp src/specification/BDM_Case_Study/ -annotations
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Publish to GitHub Packages Apache Maven
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Test with Maven
       run: mvn test
