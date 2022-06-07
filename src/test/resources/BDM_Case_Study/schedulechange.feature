@@ -36,5 +36,4 @@ Feature: Create daily Schedule
     | {1,Mechanical,2,4,1},{2,Software,4,6,1},{3,Mechanical,2,4,1},{4,Software,4,6,1}     |  {1,Mechanical,3,5},{2,Software,4,6},{3,Mechanical,3,5},{4,Software,4,6}      | Satisfied     |
     | {1,Mechanical,2,4,0},{2,Software,4,6,0},{3,Mechanical,2,4,0},{4,Software,4,6,0}     |  {1,Mechanical,3,4},{2,Software,4,6}                                          | Not satisfied |
     | {1,Mechanical,2,4,1},{2,Software,4,6,1},{3,Mechanical,2,4,1},{4,Software,4,6,1}     |  {1,Mechanical,3,8},{2,Software,4,6},{3,Software,4,6}                         | Satisfied     |
-    | {1,Mechanical,2,4,1},{2,Software,4,6,0},{3,Mechanical,2,4,0}                        |  {1,Mechanical,3,4},{2,Software,4,6}                                          | Satisfied     |
     | {1,Mechanical,2,4,2},{2,Software,4,6,1},{3,Mechanical,2,3,1}                        |  {1,Mechanical,3,3},{2,Software,4,6}                                          | Not satisfied |
