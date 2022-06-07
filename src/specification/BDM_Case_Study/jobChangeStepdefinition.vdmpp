@@ -6,7 +6,7 @@ instance variables
     system: System := new System();
 operations
 -- @Given("job","A job with a unique {int} and a required {string}, {int}, {int} and a {int} exist.")
-public Given_a_job_exists: nat * seq of char * nat * nat * nat ==> ()
+public Given_a_job_exists: int * seq of char * int * int * int ==> ()
 Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
 (
   currentJob:= new JobChange(id,skill,skilLevel,timeUnit, deadline);
