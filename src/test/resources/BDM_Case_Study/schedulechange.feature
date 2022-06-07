@@ -10,14 +10,14 @@ Feature: Create daily Schedule
     Then The job is scheduled "<result>".
 
    Examples:
-    | id         | skill      | skill_level | time_units | deadline | employee_id  | employee_skill      | employee_skill_level | employee_time_units | result        | 
-    | 1          | Mechanical | 3           | 6          | 1        |  1           | Mechanical          | 5                    | 8                   | Satisfied     |
-    | 2          | Software   | 2           | 4          | 1        |  2           | Software            | 1                    | 4                   | Not satisfied |
-    | 3          | Mechanical | 2           | 4          | 1        |  3           | Software            | 2                    | 4                   | Not satisfied |
-    | 4          | Software   | 2           | 4          | 2        |  4           | Software            | 2                    | 4                   | Satisfied     |
-    | 5          | Mechanical | 3           | 6          | 0        |  5           | Mechanical          | 4                    | 4                   | Not satisfied |
-    | 6          | Mechanical | 3           | 6          | 2        |  5           | Mechanical          | 4                    | 4                   | Satisfied     |
-    | 7          | Mechanical | 3           | 9          | 1        |  5           | Mechanical          | 4                    | 4                   | Not satisfied |
+    | id | skill      | skill_level | time_units | deadline | employee_id | employee_skill | employee_skill_level | employee_time_units | result        | 
+    | 1  | Mechanical | 3           | 6          | 1        |  1          | Mechanical     | 5                    | 8                   | Satisfied     |
+    | 2  | Software   | 2           | 4          | 1        |  2          | Software       | 1                    | 4                   | Not satisfied |
+    | 3  | Mechanical | 2           | 4          | 1        |  3          | Software       | 2                    | 4                   | Not satisfied |
+    | 4  | Software   | 2           | 4          | 2        |  4          | Software       | 2                    | 4                   | Satisfied     |
+    | 5  | Mechanical | 3           | 6          | 0        |  5          | Mechanical     | 4                    | 4                   | Not satisfied |
+    | 6  | Mechanical | 3           | 6          | 2        |  5          | Mechanical     | 4                    | 4                   | Satisfied     |
+    | 7  | Mechanical | 3           | 9          | 1        |  5          | Mechanical     | 4                    | 4                   | Not satisfied |
 
 
     Scenario Outline: Create Scehdule with several jobs and employees
