@@ -25,12 +25,8 @@ Given_an_employee_exists(id,skill,skilLevel,timeUnit) ==
 public When_the_system_creates_a_schedule: () ==> ()
 When_the_system_creates_a_schedule() ==
 (
-    IO`println(scheduler.GetJobCatalogue());
-    IO`println(scheduler.GetEmployeeCatalogue());
     scheduler.step();
     -- scheduler.CreateSchedule();
-    IO`println(scheduler.GetSchedule());
-    IO`println(scheduler.GetJobCatalogue());
 );
 
 -- @Then("schedule","The job is scheduled {string}.")
