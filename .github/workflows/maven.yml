@@ -44,3 +44,8 @@ jobs:
       run: java -cp "vdmj-4.4.4.jar:lib/*" com.fujitsu.vdmj.VDMJ -vdmpp src/specification/BDM_Case_Study/ -annotations
     - name: Test with Maven
       run: mvn test
+    - name: Step 3 - Use the Upload Artifact GitHub Action
+      uses: actions/upload-artifact@v2
+      with: 
+        name: assets-for-download
+        path: target/cucumber-reports/reports.html
