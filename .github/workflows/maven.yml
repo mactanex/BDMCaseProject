@@ -42,5 +42,7 @@ jobs:
       run: mvn install:install-file -Dfile='lib/vdmj-4.4.4.jar' -DgroupId='com.fujitsu' -DartifactId='vdmj' -Dversion='4.4.4' -Dpackaging='jar'
     - name: interpret vdmj
       run: java -cp "vdmj-4.4.4.jar:lib/*" com.fujitsu.vdmj.VDMJ -vdmpp src/specification/BDM_Case_Study/ -annotations
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
     - name: Test with Maven
       run: mvn test
