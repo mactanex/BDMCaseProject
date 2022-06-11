@@ -1,23 +1,23 @@
 --@StepDefinition("employee")
-class EmployeeChangeStepDefinitions
+class EmployeeStepDefinitions
 types
 
 instance variables
-    currentEmployee: EmployeeChange;
+    currentEmployee: Employee;
     system: System := new System();
 operations
 -- @Given("employee","An employee with a unique id {int} and {int} available time units exist.")
 public Given_an_employee_exists_change: int * int ==> ()
 Given_an_employee_exists_change(id,timeUnit) ==
 (
-   currentEmployee:= new EmployeeChange(id,timeUnit);
+   currentEmployee:= new Employee(id,timeUnit);
 );
 
 -- @Given("employee","An employee with a unique {int} and available {int} exist.")
 public Given_an_employee_exists: int * int ==> ()
 Given_an_employee_exists(id,timeUnit) ==
 (
-    currentEmployee:= new EmployeeChange(id,timeUnit);
+    currentEmployee:= new Employee(id,timeUnit);
 );
 
 -- @When("employee","The employee has been scheduled for a job and the employee's time units are {int}.")
@@ -61,7 +61,7 @@ Then_the_employee_exists_in_the_system() ==
 public Given_an_employee_exists_in_system: int ==> ()
 Given_an_employee_exists_in_system(id) ==
 (
-  currentEmployee:= new EmployeeChange(id,1);
+  currentEmployee:= new Employee(id,1);
 );
 
 -- @When("employee","I add a {string} with a {int} to the employee.")
@@ -83,7 +83,7 @@ Then_the_skill_is_added_to_the_employee(skillName,skillLevel) ==
 public Given_an_employee_exists_in_system_2: int * seq of char * int ==> ()
 Given_an_employee_exists_in_system_2(id,skill,skillLevel) ==
 (
-  currentEmployee:= new EmployeeChange(id,1);
+  currentEmployee:= new Employee(id,1);
   currentEmployee.AddSkill(skill, skillLevel);
 );
 
@@ -104,4 +104,4 @@ Then_the_amount_of_skills_is(amount) ==
 );
 
   
-end EmployeeChangeStepDefinitions
+end EmployeeStepDefinitions

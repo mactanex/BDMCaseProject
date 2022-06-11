@@ -1,29 +1,25 @@
-/* --@StepDefinition("job1")
+--@StepDefinition("job")
 class JobStepDefinitions
 types
 instance variables
     currentJob: Job;
     system: System := new System();
-
 operations
-
-
--- @Given("job1","A job with a unique {int} and a required {string}, {int}  and {int} exist.")
-public Given_a_job_exists: nat * seq of char * nat * nat ==> ()
-Given_a_job_exists(id,skill,skilLevel,timeUnit) ==
+-- @Given("job","A job with a unique {int} and a required {string}, {int}, {int} and a {int} exist.")
+public Given_a_job_exists: int * seq of char * int * int * int ==> ()
+Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
 (
-  currentJob:= new Job(id,skill,skilLevel,timeUnit);
+  currentJob:= new Job(id,skill,skilLevel,timeUnit, deadline);
 );
 
--- @When("job1","I add the job in the system.")
+-- @When("job","I add the job in the system.")
 public When_I_add_the_job_in_the_system: () ==> ()
 When_I_add_the_job_in_the_system() ==
 (
     system.AddJob(currentJob);
-
 );
 
--- @Then("job1","The job exists in the system.")
+-- @Then("job","The job exists in the system.")
 public Then_the_job_exists_in_the_system: () ==> bool
 Then_the_job_exists_in_the_system() == 
 (
@@ -31,4 +27,4 @@ Then_the_job_exists_in_the_system() ==
   else return false;
 ) post RESULT = true;
   
-end JobStepDefinitions */
+end JobStepDefinitions

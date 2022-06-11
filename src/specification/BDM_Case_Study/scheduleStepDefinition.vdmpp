@@ -1,19 +1,19 @@
-/* --@StepDefinition("schedule")
+--@StepDefinition("schedule")
 class ScheduleStepDefinitions
 instance variables
     scheduler: Scheduler := new Scheduler();
 types
 operations
--- @Given("schedule","A job with a unique {int} and a required {string}, {int} and {int} exists in the system.")
-public Given_a_job_exists: nat * seq of char * nat * nat ==> ()
-Given_a_job_exists(id,skill,skilLevel,timeUnit) ==
+-- @Given("schedule","A job with a unique {int} and a required {string}, {int}, {int}, and {int} exists in the system.")
+public Given_a_job_exists: int * seq of char * int * int * int ==> ()
+Given_a_job_exists(id,skill,skilLevel,timeUnit, deadline) ==
 (
-    dcl job: Job := new Job(id,skill,skilLevel,timeUnit);
+    dcl job: Job := new Job(id,skill,skilLevel,timeUnit, deadline);
     scheduler.AddJob(job);
 );
 
 -- @Given("schedule","A employee is added to the system, with a unique {int} and a {string}, {int}, and {int} exists in the system.")
-public Given_an_employee_exists: nat * seq of char * nat * nat ==> ()
+public Given_an_employee_exists: int * seq of char * int * int ==> ()
 Given_an_employee_exists(id,skill,skilLevel,timeUnit) ==
 (
     dcl employee: Employee := new Employee(id, timeUnit);
@@ -25,11 +25,8 @@ Given_an_employee_exists(id,skill,skilLevel,timeUnit) ==
 public When_the_system_creates_a_schedule: () ==> ()
 When_the_system_creates_a_schedule() ==
 (
-    IO`println(scheduler.GetJobCatalogue());
-    IO`println(scheduler.GetEmployeeCatalogue());
-    scheduler.CreateSchedule();
-    IO`println(scheduler.GetSchedule());
-    IO`println(scheduler.GetJobCatalogue());
+    scheduler.step();
+    -- scheduler.CreateSchedule();
 );
 
 -- @Then("schedule","The job is scheduled {string}.")
@@ -63,7 +60,7 @@ AddJobs(stringArgument) ==
   dcl AmountOfJobs: nat := len [x | x in seq originalInput & x = '}'];
 
   for i = 1 to AmountOfJobs do (
-    dcl temp: seq of seq of char := ["","","",""];
+    dcl temp: seq of seq of char := ["","","","", ""];
     dcl ite: nat := 1;
     
     for j = 1 to convertToJobsHelper(originalInput, 1) do (
@@ -79,7 +76,7 @@ AddJobs(stringArgument) ==
 
       if (tl originalInput <> []) then originalInput := tl originalInput;
     );
-    scheduler.AddJob(new Job(convert2(temp(1)), temp(2), convert2(temp(3)), convert2(temp(4))));
+    scheduler.AddJob(new Job(convert2(temp(1)), temp(2), convert2(temp(3)), convert2(temp(4)), convert2(temp(5))));
   )
 );
 
@@ -207,11 +204,11 @@ else
 
 
 
-convertToJobsHelper: seq of char * nat -> nat
+convertToJobsHelper: seq of char * int -> nat
 convertToJobsHelper(stringArgument, iterator) ==
 (
   if (hd stringArgument = '}' or len stringArgument < 1) then iterator 
   else convertToJobsHelper(tl stringArgument,iterator+1)
 ) measure len stringArgument;
 
-end ScheduleStepDefinitions */
+end ScheduleStepDefinitions
