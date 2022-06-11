@@ -1,16 +1,46 @@
-/* --@StepDefinition("employee")
+--@StepDefinition("employee")
 class EmployeeStepDefinitions
+types
+
 instance variables
     currentEmployee: Employee;
     system: System := new System();
-types
 operations
+-- @Given("employee","An employee with a unique id {int} and {int} available time units exist.")
+public Given_an_employee_exists_change: int * int ==> ()
+Given_an_employee_exists_change(id,timeUnit) ==
+(
+   currentEmployee:= new Employee(id,timeUnit);
+);
+
 -- @Given("employee","An employee with a unique {int} and available {int} exist.")
-public Given_an_employee_exists: nat * nat ==> ()
+public Given_an_employee_exists: int * int ==> ()
 Given_an_employee_exists(id,timeUnit) ==
 (
     currentEmployee:= new Employee(id,timeUnit);
 );
+
+-- @When("employee","The employee has been scheduled for a job and the employee's time units are {int}.")
+public When_Employee_scheduled_have_remaining_time_units: int ==> ()
+When_Employee_scheduled_have_remaining_time_units(remainingtimeUnit) ==
+(
+  currentEmployee.SetTimeUnits(remainingtimeUnit);
+);
+
+-- @When("employee","The system starts a new day.")
+public When_The_system_starts_new_day: () ==> ()
+When_The_system_starts_new_day() ==
+(
+    currentEmployee.refresh();
+);
+
+-- @Then("employee","The employee has refreshed his {int} time units.")
+public Then_the_employee_has_remaining_time_units: int ==> bool
+Then_the_employee_has_remaining_time_units(remainingtimeUnit) == 
+(
+  if currentEmployee.GetTimeUnitsAvailable() = remainingtimeUnit then return true
+    else return false;
+) post RESULT = true;
 
 -- @When("employee","I add the employee in the system.")
 public When_I_add_the_employee_in_the_system: () ==> ()
@@ -28,21 +58,21 @@ Then_the_employee_exists_in_the_system() ==
 ) post RESULT = true;
   
 -- @Given("employee","An Employee with a unique {int} exists in the system.")
-public Given_an_employee_exists_in_system: nat ==> ()
+public Given_an_employee_exists_in_system: int ==> ()
 Given_an_employee_exists_in_system(id) ==
 (
   currentEmployee:= new Employee(id,1);
 );
 
 -- @When("employee","I add a {string} with a {int} to the employee.")
-public When_I_add_a_skill_to_employee: seq of char * nat ==> ()
+public When_I_add_a_skill_to_employee: seq of char * int ==> ()
 When_I_add_a_skill_to_employee(skillName,skillLevel) ==
 (
     currentEmployee.AddSkill(skillName, skillLevel);
 );
 
 -- @Then("employee","The employee has the {string} and {int} in their set of skills.")
-public Then_the_skill_is_added_to_the_employee: seq of char * nat ==> bool
+public Then_the_skill_is_added_to_the_employee: seq of char * int ==> bool
 Then_the_skill_is_added_to_the_employee(skillName,skillLevel) == 
 (
   if (exists s_name in set dom currentEmployee.GetSkills() & s_name = skillName and currentEmployee.GetSkills()(s_name) = skillLevel)  then return true
@@ -50,7 +80,7 @@ Then_the_skill_is_added_to_the_employee(skillName,skillLevel) ==
 ) post RESULT = true;
 
 -- @Given("employee","An Employee with a unique {int} and {string} with {int} exists in the system.")
-public Given_an_employee_exists_in_system_2: nat * seq of char * nat ==> ()
+public Given_an_employee_exists_in_system_2: int * seq of char * int ==> ()
 Given_an_employee_exists_in_system_2(id,skill,skillLevel) ==
 (
   currentEmployee:= new Employee(id,1);
@@ -60,19 +90,18 @@ Given_an_employee_exists_in_system_2(id,skill,skillLevel) ==
 
 
 -- @Then("employee",The employee has the {string} and {int} in their set of skills.")
-public Then_the_skill_is_added_to_the_employee_2: seq of char * nat ==> ()
+public Then_the_skill_is_added_to_the_employee_2: seq of char * int ==> ()
 Then_the_skill_is_added_to_the_employee_2(skillName,skillLevel) == 
 (
    currentEmployee.AddSkill(skillName, skillLevel);
 );
 
 -- @Then("employee","The employee has {int} number of skills in their set of skills.")
-public Then_the_amount_of_skills_is: nat ==> bool
+public Then_the_amount_of_skills_is: int ==> bool
 Then_the_amount_of_skills_is(amount) == 
 (
   return amount = card rng currentEmployee.GetSkills();
 );
 
-
   
-end EmployeeStepDefinitions */
+end EmployeeStepDefinitions

@@ -1,9 +1,13 @@
-/* class Employee
+class Employee
 
 types
 
+values
+    
+
 
 instance variables
+    originaltimeunits : nat;
     id: nat;
     timeUnitsAvailable: nat;
     skills: map seq of char to nat;
@@ -16,8 +20,21 @@ Employee(pId,pTimeUnits) ==
 (
     id := pId;
     timeUnitsAvailable:=pTimeUnits;
+    originaltimeunits:=pTimeUnits;
     skills := {|->};
 );
+
+public step: nat ==> ()
+step(ptimeunits) == 
+(if timeUnitsAvailable - ptimeunits >= 0
+then 
+    timeUnitsAvailable := timeUnitsAvailable - ptimeunits
+else
+    timeUnitsAvailable := 0);
+
+public refresh: () ==> ()
+refresh() == 
+timeUnitsAvailable := originaltimeunits;
 
 public AddSkill: seq of char * nat ==> ()
 AddSkill(pSkill,pLevel) ==
@@ -44,4 +61,4 @@ functions
     
 
 
-end Employee */
+end Employee

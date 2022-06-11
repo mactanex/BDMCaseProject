@@ -1,4 +1,4 @@
-/* class Job
+class Job
 
 types
 
@@ -8,16 +8,38 @@ instance variables
     timeUnits: nat;
     skillLevel: nat;
     skill: seq of char;
+    deadline: nat;
 
 
 operations
-public Job: nat * seq of char *nat*nat ==> Job
-Job(pId,pSkill,pLevel,pTimeUnits) ==
+public Job: nat * seq of char *nat*nat*nat ==> Job
+Job(pId,pSkill,pLevel,pTimeUnits,pDeadline) ==
 (
     id := pId;
     skill:=pSkill;
     skillLevel:=pLevel;
     timeUnits:=pTimeUnits;
+    deadline:=pDeadline;
+);
+
+public step: nat ==> ()
+step(ptimeunit) == 
+(
+    if timeUnits - ptimeunit >= 0  
+    then 
+        timeUnits := timeUnits - ptimeunit
+    else
+        timeUnits := 0;
+); 
+
+public deadlineReached: (nat) ==> bool
+deadlineReached(pcurrentday) == 
+(
+    if pcurrentday > deadline 
+    then 
+        return true 
+    else
+        return false
 );
 
 public SetTimeUnits: nat ==> ()
@@ -37,11 +59,14 @@ GetSkill() ==
 return skill;    
 pure public GetId: () ==> nat
 GetId() ==
-return id;    
+return id;
+pure public GetDeadline: () ==> nat
+GetDeadline() ==
+return deadline;    
 
 
 functions
     
 
 
-end Job */
+end Job
